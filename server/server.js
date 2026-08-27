@@ -1,9 +1,11 @@
+import dns from "dns";
 import express from "express";
 import cors from "cors";
 import multer from "multer";
 import "dotenv/config";
 import connectDB from "./config/db.js";
-import dns from "dns";
+import authRouter from "./routes/authRoutes.js";
+import employeesRouter from "./routes/employeeRoutes.js";
 
 dns.setServers([
   "1.1.1.1",
@@ -11,7 +13,6 @@ dns.setServers([
 ]);
 
 const app = express();
-
 const PORT = process.env.PORT || 4000;
 
 // Middleware
@@ -24,9 +25,20 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-await connectDB();
+app.use("/api/auth", authRouter);
+app.use("/api/employees", employeesRouter);
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running on Port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on Port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
