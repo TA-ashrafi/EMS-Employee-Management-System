@@ -144,7 +144,7 @@ export const updateEmployee = async (req, res) => {
     if (password) userUpdate.password = await bcrypt.hash(password, 10);
     await User.findByIdAndUpdate(employee.userId, userUpdate);
 
-    return res.json({ success: true});
+    return res.json({ success: true });
   } catch (error) {
     if (error.code === 11000) {
       return res.status(400).json({ error: "Email already exists" });
@@ -157,8 +157,16 @@ export const updateEmployee = async (req, res) => {
 // DELETE /api/employees/:id
 export const deleteEmployee = async (req, res) => {
   try {
+    const { id } = req.params;
 
+    const employee = await Employee.findById(id);
+    if (!employee) return res.status(404).json({ error: "Employee not found" });
+
+    employee.isDeleted = true;
+    employee.employmentStatus = "INACTIVE";
+    await employee.save();
+    return res.json({ success: true });
   } catch (error) {
-
+    return res.status(500).json({ error: "Failed to Delete employee" });
   }
 }
