@@ -1,0 +1,20 @@
+import mongoose from "mongoose";
+
+const attendanceSchema = new mongoose.Schema(
+    {
+        employeeId: { type: mongoose.Schema.Types.ObjectId, ref: "Employee", required: true },
+        date: { type: Date, required: true },
+        checkIN: { type: Date, default: null },
+        checkOUT: { type: Date, default: null },
+        status: { type: String, enum: ["PRESENT", "ABSENT", "LATE"], default: "PRESENT" },
+        workingHours: { type: Number, default: null },
+        dayType: { type: String, enum: ["FULL_DAY", "HALF_DAY"], default: null },
+    }, 
+    { timestamps: true }
+);
+
+attendanceSchema.index({ employeeId: 1, date: 1 }, { unique: true });
+
+const Attendance = mongoose.models.Attendance || mongoose.model("Attendance", attendanceSchema);
+
+export default Attendance;
