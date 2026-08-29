@@ -145,7 +145,7 @@ const attendanceReminderCron = inngest.createFunction(
         if (absentEmployees.length > 0) {
             await step.run("send-reminder-emails", async () => {
                 const emailPromises = absentEmployees.map((emp) => {
-                    console.log(`📧 Sending reminder email to ${emp.email}`);
+                    console.log(` Sending reminder email to ${emp.email}`);
                     // send email
                     return Promise.resolve(true);
                 });
@@ -162,6 +162,5 @@ const attendanceReminderCron = inngest.createFunction(
     }
 );
 
-// ✅ SIRF EK BAAR EXPORT KARO
+//  SIRF EK BAAR EXPORT KARO
 export const functions = [autoCheckOut, leaveApplicationReminder, attendanceReminderCron];
-export { inngest };
