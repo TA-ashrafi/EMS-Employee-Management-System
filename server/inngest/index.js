@@ -1,4 +1,4 @@
-// import sendEmail from "../config/nodemailer.js";
+import sendEmail from "../config/nodemailer.js";
 import Attendance from "../models/Attendance.js";
 import Employee from "../models/Employee.js";
 import LeaveApplication from "../models/LeaveApplication.js";

@@ -1,4 +1,4 @@
-import { createTransport } from ""
+import { createTransport } from "nodemailer";
 import nodemailer from "nodemailer";
 
 
