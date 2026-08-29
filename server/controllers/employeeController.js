@@ -1,6 +1,6 @@
 import Employee from "../models/Employee.js";
 import bcrypt from "bcryptjs";
-import user from "../models/User.js";
+import User from "../models/User.js";
 
 // Get employees
 // GET /api/employees
@@ -56,6 +56,7 @@ export const createEmployee = async (req, res) => {
       joinDate,
       password,
       role,
+      employmentStatus,
       bio
     } = req.body;
 
