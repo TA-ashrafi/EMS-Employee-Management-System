@@ -1,4 +1,7 @@
 import { createTransport } from ""
+import nodemailer from "nodemailer";
+
+
 
 // Create a transporter using SMTP
 const transporter = createTransport({

@@ -1,3 +1,4 @@
+// import sendEmail from "../config/nodemailer.js";
 import Attendance from "../models/Attendance.js";
 import Employee from "../models/Employee.js";
 import LeaveApplication from "../models/LeaveApplication.js";
@@ -8,7 +9,7 @@ export const inngest = new Inngest({ id: "fullstack-ems" });
 
 // Auto Check-out for employees
 const autoCheckOut = inngest.createFunction(
-    { 
+    {
         id: "auto-check-out",
         triggers: [{ event: "employee/check-out" }]
     },
@@ -29,7 +30,7 @@ const autoCheckOut = inngest.createFunction(
             console.log(` Sending reminder email to ${employee?.email || employeeId}`);
             await sendEmail({
                 to: employee.email,
-                subject : "Attendance Check-Out Remainder",
+                subject: "Attendance Check-Out Remainder",
                 body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
                 <h2>Hi ${employee.firstName},</h2>
                 <p style="font-size: 16px;">You have a check-in in ${employee.department} today:</p>
@@ -41,7 +42,7 @@ const autoCheckOut = inngest.createFunction(
                 <p style="font-size: 16px;">EMS</p>
                 </div>`
             });
-            
+
 
 
             // Wait for 1 more hour (total 10 hours)
@@ -71,7 +72,7 @@ const autoCheckOut = inngest.createFunction(
 
 // Send Email to admin, If admin doesn't take action on leave application within 24 hours
 const leaveApplicationReminder = inngest.createFunction(
-    { 
+    {
         id: "leave-application-reminder",
         triggers: [{ event: "leave/pending" }]
     },
@@ -90,7 +91,17 @@ const leaveApplicationReminder = inngest.createFunction(
 
             for (const admin of admins) {
                 console.log(`Sending reminder email to admin: ${admin.email}`);
-                // await sendEmail({ to: admin.email, subject: "Leave Application Pending", ... });
+                await sendEmail({
+                    to: process.env.ADMIN_EMAIL,
+                    subject: "Leave Attendance Remainder",
+                    body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
+                    <h2>Hi Admin,</h2><p style="font-size: 16px;">You have a leave application from <strong>${employee?.firstName || ''} ${employee?.lastName || ''}</strong> in ${employee?.department || 'N/A'} department:</p><p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">${new Date(leaveApplication?.startDate).toLocaleDateString('en-IN')} to ${new Date(leaveApplication?.endDate).toLocaleDateString('en-IN')}</p>
+                    <p style="font-size: 16px;">Please take action on this leave application.</p>
+                    <br />
+                    <p style="font-size: 16px;">Best Regards,</p>
+                    <p style="font-size: 16px;">EMS</p>
+                    </div>`
+                });
             }
 
             console.log(`Reminder sent for leave application ${leaveApplicationId}`);
@@ -102,7 +113,7 @@ const leaveApplicationReminder = inngest.createFunction(
 
 // Cron: Check attendance at 11:30 AM IST (06:00 UTC) and email absent employees
 const attendanceReminderCron = inngest.createFunction(
-    { 
+    {
         id: "attendance-reminder-cron",
         triggers: [{ cron: "0 0 6 * * *" }] // 06:00 UTC = 11:30 AM IST
     },
@@ -162,6 +173,21 @@ const attendanceReminderCron = inngest.createFunction(
                 const emailPromises = absentEmployees.map((emp) => {
                     console.log(` Sending reminder email to ${emp.email}`);
                     // send email
+                    sendEmail({
+                        to: emp.email,
+                        subject: "Attendance Reminder - Please Mark Your Attendance",
+                        body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
+                        <h2>Hi ${emp.firstName}, </h2>
+                        <p style="font-size: 16px;">We noticed you haven't marked your attendance yet today.</p>
+                        <p style="font-size: 16px;">The deadline was <strong>11:30 AM</strong> and your attendance is still missing.</p>
+                        <p style="font-size: 16px;">Please check in as soon as possible or contact your admin if you're facing any issues.</p>
+                        <p style="font-size: 14px; color: #666;">Department: ${emp.department}</p>
+                        <p style="font-size: 16px;">Best Regards,</p>
+                        <p style="font-size: 16px;">${emp.department}</p>
+                        <p style="font-size: 16px;">${emp.department}</p>
+                        </div>`
+                    })
+
                     return Promise.resolve(true);
                 });
                 await Promise.all(emailPromises);
