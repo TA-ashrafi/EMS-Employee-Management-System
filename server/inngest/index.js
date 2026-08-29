@@ -26,8 +26,23 @@ const autoCheckOut = inngest.createFunction(
             const employee = await Employee.findById(employeeId);
 
             // Send reminder email
-            console.log(`📧 Sending reminder email to ${employee?.email || employeeId}`);
-            // await sendEmail({ to: employee.email, subject: "Check-out Reminder", ... });
+            console.log(` Sending reminder email to ${employee?.email || employeeId}`);
+            await sendEmail({
+                to: employee.email,
+                subject : "Attendance Check-Out Remainder",
+                body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
+                <h2>Hi ${employee.firstName},</h2>
+                <p style="font-size: 16px;">You have a check-in in ${employee.department} today:</p>
+                <p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">${new Date(attendance.checkIn).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+                <ol><li>${new Date(attendance.checkIn).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</li></ol>
+                <p style="font-size: 16px;">Please make sure to check-out in one hour.</p>
+                <p style="font-size: 16px;">If you have any questions, please contact your admin.</p>
+                <p style="font-size: 16px;">Best Regards,</p>
+                <p style="font-size: 16px;">EMS</p>
+                </div>`
+            });
+            
+
 
             // Wait for 1 more hour (total 10 hours)
             await step.sleepUntil("wait-for-the-1-hour", new Date(new Date().getTime() + 1 * 60 * 60 * 1000));
