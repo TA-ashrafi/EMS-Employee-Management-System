@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import toast from "react-hot-toast";
-import { Zap, Mail, Lock, ShieldCheck, UserCheck, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, Lock, ShieldCheck, UserCheck, ArrowRight, Sparkles, Sun, Moon } from "lucide-react";
 
 const LoginLanding = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const LoginLanding = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const { login } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -41,53 +43,75 @@ const LoginLanding = () => {
         <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-white/10 blur-3xl"></div>
         <div className="absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-yellow-300/20 blur-3xl"></div>
 
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 shadow-xl">
-            <Zap className="h-7 w-7 text-yellow-400 fill-yellow-400" />
+        <div className="relative z-10 flex items-center gap-4">
+          <img
+            src="/assets/logo.png"
+            alt="Lemon Media Company Logo"
+            className="h-16 w-16 rounded-full border-4 border-slate-950 shadow-2xl object-cover"
+          />
+          <div>
+            <span className="text-3xl font-black tracking-tight text-slate-950 block leading-none">
+              Lemon Media
+            </span>
+            <span className="text-xs font-black uppercase tracking-widest text-white mt-1 block">
+              Company EMS
+            </span>
           </div>
-          <span className="text-2xl font-black tracking-tight text-slate-950">
-            Lemon<span className="text-white">EMS</span>
-          </span>
         </div>
 
         <div className="relative z-10 space-y-6 max-w-lg">
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-950/15 px-4 py-1.5 text-xs font-bold text-slate-950 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full bg-slate-950/20 px-4 py-1.5 text-xs font-bold text-slate-950 backdrop-blur-md">
             <Sparkles className="h-4 w-4" />
-            <span>Smart Workforce & Payroll Solution</span>
+            <span>Official Workforce & Payroll System</span>
           </div>
           <h1 className="text-5xl font-black tracking-tight text-slate-950 leading-tight">
             Manage your team with freshness & simplicity.
           </h1>
           <p className="text-slate-900/80 font-medium text-base leading-relaxed">
-            Track attendance, process payroll payslips, and approve leave requests in one unified, vibrant workspace.
+            Track attendance, process payroll payslips, and approve leave requests in one unified workspace for Lemon Media Company.
           </p>
         </div>
 
-        <div className="relative z-10 flex items-center justify-between border-t border-slate-950/10 pt-6 text-xs font-semibold text-slate-900/70">
-          <span>&copy; {new Date().getFullYear()} LemonEMS. All rights reserved.</span>
-          <span>Enterprise Ready</span>
+        <div className="relative z-10 flex items-center justify-between border-t border-slate-950/10 pt-6 text-xs font-bold text-slate-900/80">
+          <span>&copy; {new Date().getFullYear()} Lemon Media Company. All rights reserved.</span>
+          <span>Enterprise Portal</span>
         </div>
       </div>
 
       {/* Right Login Form Container */}
-      <div className="flex w-full items-center justify-center p-6 sm:p-12 lg:w-1/2">
+      <div className="flex w-full items-center justify-center p-6 sm:p-12 lg:w-1/2 bg-slate-950 relative">
+        <button
+          onClick={toggleTheme}
+          className="absolute top-6 right-6 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-yellow-400 hover:scale-105 transition-all"
+          title="Toggle Theme"
+        >
+          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5 text-slate-300" />}
+        </button>
+
         <div className="w-full max-w-md space-y-8">
           {/* Mobile Logo Header */}
           <div className="flex items-center gap-3 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-400 shadow-md">
-              <Zap className="h-6 w-6 text-slate-950 fill-slate-950" />
+            <img
+              src="/assets/logo.png"
+              alt="Lemon Media Company Logo"
+              className="h-12 w-12 rounded-full border-2 border-yellow-400 object-cover"
+            />
+            <div>
+              <span className="text-xl font-black tracking-tight text-white block">
+                Lemon Media
+              </span>
+              <span className="text-[10px] uppercase font-bold text-yellow-400 tracking-widest block">
+                Company EMS
+              </span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              Lemon<span className="text-yellow-400">EMS</span>
-            </span>
           </div>
 
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-white">
+            <h2 className="text-3xl font-black tracking-tight text-white">
               Sign in to your account
             </h2>
             <p className="mt-2 text-sm text-slate-400 font-medium">
-              Choose your role and enter credentials to continue.
+              Select your role and enter credentials to enter the workspace.
             </p>
           </div>
 
@@ -134,7 +158,7 @@ const LoginLanding = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={roleType === "admin" ? "admin@example.com" : "employee@example.com"}
+                  placeholder={roleType === "admin" ? "admin@gmail.com" : "employee@lemonmedia.com"}
                   className="w-full rounded-xl border border-slate-800 bg-slate-900/80 py-3.5 pl-11 pr-4 text-sm text-white placeholder-slate-500 transition-all focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
                 />
               </div>
@@ -169,12 +193,9 @@ const LoginLanding = () => {
             </button>
           </form>
 
-          {/* Quick Demo Credentials hint */}
-          <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-xs text-amber-300/90 font-medium">
-            <p className="font-bold text-yellow-400 mb-1 flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5" /> Quick Access Info:
-            </p>
-            <p>Admin email & password can be found in environment variables or seeded DB.</p>
+          {/* Footer Copyright */}
+          <div className="text-center pt-4 text-[11px] text-slate-500 font-semibold">
+            &copy; 2026 Lemon Media Company. All rights reserved.
           </div>
         </div>
       </div>
