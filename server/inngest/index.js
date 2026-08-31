@@ -170,25 +170,21 @@ const attendanceReminderCron = inngest.createFunction(
         // Step 6: Send reminder emails
         if (absentEmployees.length > 0) {
             await step.run("send-reminder-emails", async () => {
-                const emailPromises = absentEmployees.map((emp) => {
-                    console.log(` Sending reminder email to ${emp.email}`);
-                    // send email
-                    sendEmail({
+                const emailPromises = absentEmployees.map(async (emp) => {
+                    console.log(`Sending reminder email to ${emp.email}`);
+                    return await sendEmail({
                         to: emp.email,
                         subject: "Attendance Reminder - Please Mark Your Attendance",
-                        body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
-                        <h2>Hi ${emp.firstName}, </h2>
-                        <p style="font-size: 16px;">We noticed you haven't marked your attendance yet today.</p>
-                        <p style="font-size: 16px;">The deadline was <strong>11:30 AM</strong> and your attendance is still missing.</p>
-                        <p style="font-size: 16px;">Please check in as soon as possible or contact your admin if you're facing any issues.</p>
-                        <p style="font-size: 14px; color: #666;">Department: ${emp.department}</p>
-                        <p style="font-size: 16px;">Best Regards,</p>
-                        <p style="font-size: 16px;">${emp.department}</p>
-                        <p style="font-size: 16px;">${emp.department}</p>
+                        body: `<div style="max-width: 600px; font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+                        <h2 style="color: #0f172a;">Hi ${emp.firstName},</h2>
+                        <p style="font-size: 15px; color: #334155;">We noticed you haven't marked your attendance yet today.</p>
+                        <p style="font-size: 15px; color: #334155;">The deadline was <strong>11:30 AM IST</strong> and your attendance record is currently missing.</p>
+                        <p style="font-size: 15px; color: #334155;">Please log in and check in as soon as possible or contact your administrator if you are facing any issues.</p>
+                        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+                        <p style="font-size: 13px; color: #64748b; margin: 0;">Department: ${emp.department || 'N/A'}</p>
+                        <p style="font-size: 14px; color: #0f172a; font-weight: bold; margin-top: 12px;">Lemon Media Company EMS</p>
                         </div>`
-                    })
-
-                    return Promise.resolve(true);
+                    });
                 });
                 await Promise.all(emailPromises);
             });
