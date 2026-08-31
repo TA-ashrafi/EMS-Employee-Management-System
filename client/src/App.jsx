@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import LoginLanding from "./page/LoginLanding";
 import Layout from "./page/Layout";
 import Dashboard from "./page/Dashboard";
@@ -16,7 +17,7 @@ const ProtectedRoute = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-amber-50">
+      <div className="flex h-screen items-center justify-center bg-amber-50 dark:bg-slate-900">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-yellow-500 border-t-transparent"></div>
       </div>
     );
@@ -33,27 +34,29 @@ const AdminRoute = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-      <Routes>
-        <Route path="/login" element={<LoginLanding />} />
+      <ThemeProvider>
+        <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+        <Routes>
+          <Route path="/login" element={<LoginLanding />} />
 
-        <Route element={<ProtectedRoute />}>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/attendance" element={<Attendance />} />
-            <Route path="/leave" element={<Leave />} />
-            <Route path="/payslip" element={<PrintPayslip />} />
-            <Route path="/settings" element={<Settings />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/leave" element={<Leave />} />
+              <Route path="/payslip" element={<PrintPayslip />} />
+              <Route path="/settings" element={<Settings />} />
 
-            <Route element={<AdminRoute />}>
-              <Route path="/employees" element={<Employees />} />
+              <Route element={<AdminRoute />}>
+                <Route path="/employees" element={<Employees />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
 
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </ThemeProvider>
     </AuthProvider>
   );
 };

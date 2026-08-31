@@ -1,4 +1,5 @@
 import Employee from "../models/Employee.js";
+import User from "../models/User.js";
 
 // Get profile
 // GET /api/profile
@@ -7,23 +8,21 @@ export const getProfile = async (req, res) => {
     const session = req.session;
     let employee = await Employee.findOne({ userId: session.userId });
 
-    if (!employee && session.role === "ADMIN") {
+    if (!employee) {
+      const user = await User.findById(session.userId);
       return res.json({
-        firstName: "ADMIN",
+        firstName: session.role === "ADMIN" ? "ADMIN" : "EMPLOYEE",
         lastName: "USER",
-        email: session.email,
-        position: "Administrator",
-        department: "Operations",
+        email: user?.email || session.email,
+        position: session.role === "ADMIN" ? "Administrator" : "Staff Member",
+        department: "Engineering",
         bio: "",
       });
     }
 
-    if (!employee) {
-      return res.status(404).json({ error: "Employee profile not found" });
-    }
-
     return res.json(employee);
   } catch (error) {
+    console.error("Get profile error:", error);
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -35,23 +34,21 @@ export const updateProfile = async (req, res) => {
     const session = req.session;
     let employee = await Employee.findOne({ userId: session.userId });
 
-    if (!employee && session.role === "ADMIN") {
+    if (!employee) {
+      const user = await User.findById(session.userId);
+      const email = user?.email || session.email || "user@system.com";
       employee = await Employee.create({
         userId: session.userId,
-        firstName: "ADMIN",
+        firstName: session.role === "ADMIN" ? "ADMIN" : "EMPLOYEE",
         lastName: "USER",
-        email: session.email || "admin@system.com",
+        email: email,
         phone: "0000000000",
-        position: "Administrator",
-        department: "Operations",
+        position: session.role === "ADMIN" ? "Administrator" : "Staff Member",
+        department: "Engineering",
         joinDate: new Date(),
         bio: req.body.bio || "",
       });
       return res.json({ success: true, message: "Profile updated successfully" });
-    }
-
-    if (!employee) {
-      return res.status(404).json({ error: "Employee not found" });
     }
 
     if (employee.isDeleted) {
@@ -67,6 +64,6 @@ export const updateProfile = async (req, res) => {
     return res.json({ success: true, message: "Profile updated successfully" });
   } catch (error) {
     console.error("Update profile error:", error);
-    return res.status(500).json({ error: "Failed to update Profile" });
+    return res.status(500).json({ error: "Failed to update Profile: " + (error.message || "") });
   }
 };

@@ -61,7 +61,7 @@ const Dashboard = () => {
       <div className="flex h-96 items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-yellow-400 border-t-transparent"></div>
-          <p className="text-sm font-semibold text-slate-500">Loading Dashboard Metrics...</p>
+          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Loading Dashboard Metrics...</p>
         </div>
       </div>
     );
@@ -94,7 +94,7 @@ const Dashboard = () => {
             <button
               onClick={handleClockInOut}
               disabled={clocking}
-              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-yellow-400/20 hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-yellow-400/20 hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95 disabled:opacity-50 cursor-pointer"
             >
               <UserCheck className="h-5 w-5" />
               <span>{clocking ? "Processing..." : "Clock In / Clock Out"}</span>
@@ -107,77 +107,77 @@ const Dashboard = () => {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {isAdmin ? (
           <>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Total Employees
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400">
                   <Users className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
                   {dashboardData?.totalEmployee || 0}
                 </h3>
-                <span className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+                <span className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                   <TrendingUp className="h-3.5 w-3.5" /> Active Staff
                 </span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Departments
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
                   <Building2 className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
                   {dashboardData?.totalDepartments || 0}
                 </h3>
-                <span className="mt-1 text-xs font-semibold text-slate-500">
+                <span className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Configured Units
                 </span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Today's Attendance
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
                   <Clock className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
                   {dashboardData?.todayAttendance || 0}
                 </h3>
-                <span className="mt-1 text-xs font-semibold text-slate-500">
+                <span className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Clocked-in Staff
                 </span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Pending Leaves
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 text-rose-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400">
                   <CalendarDays className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
                   {dashboardData?.pendingLeaves || 0}
                 </h3>
-                <span className="mt-1 text-xs font-semibold text-rose-500">
+                <span className="mt-1 text-xs font-semibold text-rose-500 dark:text-rose-400">
                   Requires Review
                 </span>
               </div>
@@ -185,61 +185,61 @@ const Dashboard = () => {
           </>
         ) : (
           <>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Month Attendance
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400">
                   <Clock className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
-                  {dashboardData?.currentMonthAttendance || 0} <span className="text-lg font-bold text-slate-500">Days</span>
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
+                  {dashboardData?.currentMonthAttendance || 0} <span className="text-lg font-bold text-slate-500 dark:text-slate-400">Days</span>
                 </h3>
-                <span className="mt-1 text-xs font-semibold text-slate-500">
+                <span className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
                   This Month
                 </span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   My Pending Leaves
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
                   <CalendarDays className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4">
-                <h3 className="text-3xl font-black text-slate-900">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white">
                   {dashboardData?.pendingLeaves || 0}
                 </h3>
-                <span className="mt-1 text-xs font-semibold text-slate-500">
+                <span className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Awaiting Approval
                 </span>
               </div>
             </div>
 
-            <div className="col-span-2 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs hover:shadow-md transition-shadow">
+            <div className="col-span-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Latest Payslip
                 </p>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
                   <CreditCard className="h-6 w-6" />
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900">
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white">
                     {dashboardData?.latestPayslip
                       ? `$${dashboardData.latestPayslip.netSalary || dashboardData.latestPayslip.basicSalary}`
                       : "No Payslip Generated"}
                   </h3>
-                  <p className="text-xs font-semibold text-slate-500 mt-1">
+                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
                     {dashboardData?.latestPayslip
                       ? `For ${dashboardData.latestPayslip.month} ${dashboardData.latestPayslip.year}`
                       : "Check back later for issued payslips"}
@@ -247,7 +247,7 @@ const Dashboard = () => {
                 </div>
                 <Link
                   to="/payslip"
-                  className="flex items-center gap-2 text-xs font-bold text-yellow-600 hover:text-yellow-700 bg-yellow-50 px-4 py-2.5 rounded-xl border border-yellow-200"
+                  className="flex items-center gap-2 text-xs font-bold text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 bg-yellow-50 dark:bg-yellow-950/40 px-4 py-2.5 rounded-xl border border-yellow-200 dark:border-yellow-800/40"
                 >
                   <span>View Details</span>
                   <ArrowRight className="h-4 w-4" />
@@ -260,7 +260,7 @@ const Dashboard = () => {
 
       {/* Quick Action Navigation Grid */}
       <div className="space-y-4">
-        <h3 className="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+        <h3 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
           <Zap className="h-5 w-5 text-yellow-500 fill-yellow-500" /> Quick Shortcuts
         </h3>
 
@@ -268,15 +268,15 @@ const Dashboard = () => {
           {isAdmin && (
             <Link
               to="/employees"
-              className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:border-yellow-400 hover:shadow-md transition-all"
+              className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md transition-all"
             >
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-yellow-400 group-hover:bg-yellow-400 group-hover:text-slate-950 transition-colors">
                   <Users className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">Employee Directory</h4>
-                  <p className="text-xs text-slate-500 font-medium">
+                  <h4 className="font-bold text-slate-900 dark:text-white">Employee Directory</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                     Add, edit or deactivate team members
                   </p>
                 </div>
@@ -287,15 +287,15 @@ const Dashboard = () => {
 
           <Link
             to="/attendance"
-            className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:border-yellow-400 hover:shadow-md transition-all"
+            className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md transition-all"
           >
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-yellow-400 group-hover:bg-yellow-400 group-hover:text-slate-950 transition-colors">
                 <Clock className="h-6 w-6" />
               </div>
               <div>
-                <h4 className="font-bold text-slate-900">Attendance Log</h4>
-                <p className="text-xs text-slate-500 font-medium">
+                <h4 className="font-bold text-slate-900 dark:text-white">Attendance Log</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                   Review check-in history and timesheet
                 </p>
               </div>
@@ -305,15 +305,15 @@ const Dashboard = () => {
 
           <Link
             to="/leave"
-            className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-xs hover:border-yellow-400 hover:shadow-md transition-all"
+            className="group flex items-center justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md transition-all"
           >
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-yellow-400 group-hover:bg-yellow-400 group-hover:text-slate-950 transition-colors">
                 <CalendarDays className="h-6 w-6" />
               </div>
               <div>
-                <h4 className="font-bold text-slate-900">Leave Portal</h4>
-                <p className="text-xs text-slate-500 font-medium">
+                <h4 className="font-bold text-slate-900 dark:text-white">Leave Portal</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                   Submit requests or manage pending leaves
                 </p>
               </div>

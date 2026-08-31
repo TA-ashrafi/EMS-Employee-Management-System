@@ -1,20 +1,17 @@
 from playwright.sync_api import sync_playwright
-import os
 
 def run_cuj(page):
     page.goto("http://localhost:3000/login")
     page.wait_for_timeout(1000)
 
-    page.get_by_placeholder("admin@example.com").fill("admin@example.com")
+    page.get_by_placeholder("admin@gmail.com").fill("admin@gmail.com")
     page.wait_for_timeout(500)
     page.get_by_placeholder("••••••••").fill("admin123")
     page.wait_for_timeout(500)
 
-    # Click Sign In button
     page.get_by_role("button", name="Sign in as Admin").click()
     page.wait_for_timeout(1500)
 
-    # Screenshot Login / Dashboard view
     page.screenshot(path="/home/jules/verification/screenshots/verification.png")
     page.wait_for_timeout(1000)
 
