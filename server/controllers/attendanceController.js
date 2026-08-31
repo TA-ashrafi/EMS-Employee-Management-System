@@ -7,10 +7,24 @@ import Employee from "../models/Employee.js";
 export const clockInOut = async (req, res) => {
     try {
         const session = req.session;
-        const employee = await Employee.findOne({ userId: session.userId });
+        let employee = await Employee.findOne({ userId: session.userId });
         
+        // Auto create employee profile for Admin if missing
+        if (!employee && session.role === "ADMIN") {
+            employee = await Employee.create({
+                userId: session.userId,
+                firstName: "ADMIN",
+                lastName: "USER",
+                email: session.email || "admin@system.com",
+                phone: "0000000000",
+                position: "Administrator",
+                department: "Operations",
+                joinDate: new Date(),
+            });
+        }
+
         if (!employee) {
-            return res.status(404).json({ error: "Employee not found" });
+            return res.status(404).json({ error: "Employee profile not found" });
         }
         
         if (employee.isDeleted) {
@@ -32,39 +46,45 @@ export const clockInOut = async (req, res) => {
             const attendance = await Attendance.create({
                 employeeId: employee._id,
                 date: today,
-                checkIn: now,
+                checkIN: now,
                 status: isLate ? "LATE" : "PRESENT"
             });
 
-            await inngest.send({
-                name: "employee/check-out",
-                data : {
-                    employeeId : employee._id,
-                    attendanceId : attendance._Id,
-                    
-                }
-            })
+            try {
+                await inngest.send({
+                    name: "employee/check-out",
+                    data : {
+                        employeeId : employee._id,
+                        attendanceId : attendance._id,
+                    }
+                });
+            } catch (err) {
+                console.error("Inngest send error:", err);
+            }
             
             return res.json({
                 success: true,
                 type: "CHECK_IN",
-                data: attendance
+                data: {
+                    ...attendance.toObject(),
+                    checkIn: attendance.checkIN,
+                    checkOut: attendance.checkOUT
+                }
             });
         } 
-        else if (!existing.checkOut) {
-            const checkInTime = new Date(existing.checkIn).getTime();
-            const diffMs = now.getTime() - checkInTime;
+        else if (!existing.checkOUT) {
+            const checkInTime = existing.checkIN ? new Date(existing.checkIN).getTime() : now.getTime();
+            const diffMs = Math.max(0, now.getTime() - checkInTime);
             const diffHours = diffMs / (1000 * 60 * 60);
 
-            existing.checkOut = now;
+            existing.checkOUT = now;
 
-            // Compute working hours and day type 
-            const workingHours = parseInt(diffHours.toFixed(2));
-            let dayType = "Half Day";
-            if (workingHours >= 8) dayType = "Full Day";
-            else if (workingHours >= 6) dayType = "Three Quarter Day";
-            else if (workingHours >= 4) dayType = "Half Day";
-            else dayType = "Short Day";
+            // Compute working hours and day type matching enum ["FULL_DAY", "HALF_DAY"]
+            const workingHours = parseFloat(diffHours.toFixed(2)) || 0;
+            let dayType = "HALF_DAY";
+            if (workingHours >= 6) {
+                dayType = "FULL_DAY";
+            }
 
             existing.workingHours = workingHours;
             existing.dayType = dayType;
@@ -73,7 +93,11 @@ export const clockInOut = async (req, res) => {
             return res.json({
                 success: true,
                 type: "CHECK_OUT",
-                data: existing
+                data: {
+                    ...existing.toObject(),
+                    checkIn: existing.checkIN,
+                    checkOut: existing.checkOUT
+                }
             });
         } 
         else {
@@ -82,20 +106,24 @@ export const clockInOut = async (req, res) => {
             const attendance = await Attendance.create({
                 employeeId: employee._id,
                 date: today,
-                checkIn: now,
+                checkIN: now,
                 status: isLate ? "LATE" : "PRESENT"
             });
             
             return res.json({
                 success: true,
                 type: "CHECK_IN",
-                data: attendance
+                data: {
+                    ...attendance.toObject(),
+                    checkIn: attendance.checkIN,
+                    checkOut: attendance.checkOUT
+                }
             });
         }
 
     } catch (error) {
         console.error("Attendance Error:", error);
-        return res.status(500).json({ error: "Operation failed" });
+        return res.status(500).json({ error: "Operation failed: " + (error.message || "") });
     }
 };
 
@@ -104,21 +132,53 @@ export const clockInOut = async (req, res) => {
 export const getAttendance = async (req, res) => {
     try {
         const session = req.session;
-        const employee = await Employee.findOne({ userId: session.userId });
-        
-        if (!employee) {
-            return res.status(404).json({ error: "Employee not found" });
+        const isAdmin = session.role === "ADMIN";
+
+        const limit = parseInt(req.query.limit || 50);
+
+        if (isAdmin) {
+            const history = await Attendance.find()
+                .populate("employeeId")
+                .sort({ date: -1, createdAt: -1 })
+                .limit(limit)
+                .lean();
+
+            const data = history.map((log) => ({
+                ...log,
+                id: log._id.toString(),
+                checkIn: log.checkIN || log.checkIn,
+                checkOut: log.checkOUT || log.checkOut,
+                employee: log.employeeId
+            }));
+
+            return res.json({
+                data,
+                employee: { isDeleted: false }
+            });
+        } else {
+            const employee = await Employee.findOne({ userId: session.userId });
+
+            if (!employee) {
+                return res.status(404).json({ error: "Employee profile not found" });
+            }
+
+            const history = await Attendance.find({ employeeId: employee._id })
+                .sort({ date: -1, createdAt: -1 })
+                .limit(limit)
+                .lean();
+
+            const data = history.map((log) => ({
+                ...log,
+                id: log._id.toString(),
+                checkIn: log.checkIN || log.checkIn,
+                checkOut: log.checkOUT || log.checkOut,
+            }));
+
+            return res.json({
+                data,
+                employee: { isDeleted: employee.isDeleted }
+            });
         }
-
-        const limit = parseInt(req.query.limit || 30);
-        const history = await Attendance.find({ employeeId: employee._id })
-            .sort({ date: -1 })
-            .limit(limit);
-
-        return res.json({
-            data: history,
-            employee: { isDeleted: employee.isDeleted }
-        });
         
     } catch (error) {
         console.error("Get Attendance Error:", error);

@@ -25,7 +25,7 @@ const Leave = () => {
   // Modal State for Applying Leave
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    type: "PAID",
+    type: "SICK",
     startDate: "",
     endDate: "",
     reason: "",
@@ -279,10 +279,9 @@ const Leave = () => {
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                   className="w-full rounded-xl border border-slate-200 p-3 text-xs font-bold focus:border-yellow-400 focus:outline-none"
                 >
-                  <option value="PAID">Paid Leave</option>
                   <option value="SICK">Sick Leave</option>
-                  <option value="UNPAID">Unpaid Leave</option>
                   <option value="CASUAL">Casual Leave</option>
+                  <option value="ANNUAL">Annual Leave</option>
                 </select>
               </div>
 
