@@ -65,10 +65,7 @@ export const clockInOut = async (req, res) => {
             return res.json({
                 success: true,
                 type: "CHECK_IN",
-<<<<<<< HEAD
                 message: "Clocked in successfully",
-=======
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
                 data: {
                     ...attendance.toObject(),
                     checkIn: attendance.checkIN,
@@ -97,10 +94,7 @@ export const clockInOut = async (req, res) => {
             return res.json({
                 success: true,
                 type: "CHECK_OUT",
-<<<<<<< HEAD
                 message: "Clocked out successfully",
-=======
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
                 data: {
                     ...existing.toObject(),
                     checkIn: existing.checkIN,
@@ -109,7 +103,6 @@ export const clockInOut = async (req, res) => {
             });
         } 
         else {
-<<<<<<< HEAD
             // Already checked in and checked out for today!
             return res.status(400).json({
                 error: "You have already completed your punch in and punch out for today.",
@@ -118,24 +111,6 @@ export const clockInOut = async (req, res) => {
                     ...existing.toObject(),
                     checkIn: existing.checkIN,
                     checkOut: existing.checkOUT
-=======
-            // Already checked out - start new check-in
-            const isLate = now.getHours() >= 9 && now.getMinutes() > 0;
-            const attendance = await Attendance.create({
-                employeeId: employee._id,
-                date: today,
-                checkIN: now,
-                status: isLate ? "LATE" : "PRESENT"
-            });
-            
-            return res.json({
-                success: true,
-                type: "CHECK_IN",
-                data: {
-                    ...attendance.toObject(),
-                    checkIn: attendance.checkIN,
-                    checkOut: attendance.checkOUT
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
                 }
             });
         }
@@ -176,11 +151,7 @@ export const getAttendance = async (req, res) => {
             });
         } else {
             const employee = await Employee.findOne({ userId: session.userId });
-<<<<<<< HEAD
             
-=======
-
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
             if (!employee) {
                 return res.status(404).json({ error: "Employee profile not found" });
             }

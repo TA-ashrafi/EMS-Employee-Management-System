@@ -8,7 +8,6 @@ export const getProfile = async (req, res) => {
     const session = req.session;
     let employee = await Employee.findOne({ userId: session.userId });
 
-<<<<<<< HEAD
     if (!employee) {
       const user = await User.findById(session.userId);
       return res.json({
@@ -17,21 +16,8 @@ export const getProfile = async (req, res) => {
         email: user?.email || session.email,
         position: session.role === "ADMIN" ? "Administrator" : "Staff Member",
         department: "Engineering",
-=======
-    if (!employee && session.role === "ADMIN") {
-      return res.json({
-        firstName: "ADMIN",
-        lastName: "USER",
-        email: session.email,
-        position: "Administrator",
-        department: "Operations",
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
         bio: "",
       });
-    }
-
-    if (!employee) {
-      return res.status(404).json({ error: "Employee profile not found" });
     }
 
     return res.json(employee);
@@ -47,24 +33,6 @@ export const updateProfile = async (req, res) => {
   try {
     const session = req.session;
     let employee = await Employee.findOne({ userId: session.userId });
-<<<<<<< HEAD
-=======
-
-    if (!employee && session.role === "ADMIN") {
-      employee = await Employee.create({
-        userId: session.userId,
-        firstName: "ADMIN",
-        lastName: "USER",
-        email: session.email || "admin@system.com",
-        phone: "0000000000",
-        position: "Administrator",
-        department: "Operations",
-        joinDate: new Date(),
-        bio: req.body.bio || "",
-      });
-      return res.json({ success: true, message: "Profile updated successfully" });
-    }
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
 
     if (!employee) {
       const user = await User.findById(session.userId);
@@ -96,10 +64,6 @@ export const updateProfile = async (req, res) => {
     return res.json({ success: true, message: "Profile updated successfully" });
   } catch (error) {
     console.error("Update profile error:", error);
-<<<<<<< HEAD
     return res.status(500).json({ error: "Failed to update Profile: " + (error.message || "") });
-=======
-    return res.status(500).json({ error: "Failed to update Profile" });
->>>>>>> 7d32d919e32ffaf29edb398b4e6645306678c009
   }
 };
