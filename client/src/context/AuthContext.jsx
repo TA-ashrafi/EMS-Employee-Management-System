@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", newToken);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
-
+    
     try {
       const resProfile = await API.get("/api/profile");
       setProfile(resProfile.data);

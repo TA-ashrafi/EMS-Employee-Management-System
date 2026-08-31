@@ -115,6 +115,7 @@ export const updateEmployee = async (req, res) => {
       joinDate,
       password,
       role,
+      employmentStatus,
       bio
     } = req.body;
 

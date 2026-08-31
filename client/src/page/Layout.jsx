@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import {
   LayoutDashboard,
   Users,
@@ -12,16 +13,17 @@ import {
   Menu,
   X,
   UserCheck,
-  Zap,
   ChevronRight,
   ShieldCheck,
-  User,
+  Sun,
+  Moon,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import API from "../services/api";
 
 const Layout = () => {
   const { user, profile, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [clocking, setClocking] = useState(false);
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const Layout = () => {
     : user?.email?.split("@")[0] || "User";
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans text-slate-800 antialiased overflow-hidden">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 antialiased overflow-hidden">
       {/* Sidebar Overlay for Mobile */}
       {mobileOpen && (
         <div
@@ -83,23 +85,25 @@ const Layout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col justify-between bg-slate-900 text-slate-200 transition-transform duration-300 ease-in-out md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col justify-between bg-slate-900 dark:bg-slate-900/95 text-slate-200 border-r border-slate-800 transition-transform duration-300 ease-in-out md:static md:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div>
-          {/* Logo & Brand */}
-          <div className="flex items-center justify-between border-b border-slate-800 px-6 py-5">
+          {/* Logo & Brand Header */}
+          <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 font-bold text-slate-950 shadow-md shadow-yellow-500/20">
-                <Zap className="h-6 w-6 fill-slate-950 stroke-slate-950" />
-              </div>
+              <img
+                src="/assets/logo.png"
+                alt="Lemon Media Company Logo"
+                className="h-10 w-10 rounded-full object-cover ring-2 ring-yellow-400 shadow-md"
+              />
               <div>
-                <h1 className="text-lg font-bold tracking-tight text-white leading-none">
-                  Lemon<span className="text-yellow-400">EMS</span>
+                <h1 className="text-sm font-black tracking-tight text-white leading-tight">
+                  Lemon Media<span className="text-yellow-400"> EMS</span>
                 </h1>
-                <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mt-1">
-                  HR Management
+                <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mt-0.5">
+                  Workforce Portal
                 </p>
               </div>
             </div>
@@ -123,7 +127,7 @@ const Layout = () => {
                   className={({ isActive }) =>
                     `group flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
                       isActive
-                        ? "bg-yellow-400 text-slate-950 font-semibold shadow-md shadow-yellow-400/20"
+                        ? "bg-yellow-400 text-slate-950 font-bold shadow-md shadow-yellow-400/20"
                         : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
                     }`
                   }
@@ -147,68 +151,92 @@ const Layout = () => {
           </nav>
         </div>
 
-        {/* User Card & Logout in Sidebar Bottom */}
-        <div className="border-t border-slate-800 p-4">
-          <div className="mb-3 flex items-center gap-3 rounded-xl bg-slate-800/60 p-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-400/20 text-yellow-400 font-bold">
-              {displayName.charAt(0).toUpperCase()}
-            </div>
-            <div className="overflow-hidden">
-              <p className="truncate text-sm font-semibold text-white">{displayName}</p>
-              <span className="inline-flex items-center gap-1 text-[11px] text-yellow-400/90 font-medium">
-                <ShieldCheck className="h-3 w-3" />
-                {user?.role === "ADMIN" ? "Administrator" : "Employee"}
-              </span>
+        {/* User Card, Theme Toggle & Logout in Sidebar Bottom */}
+        <div className="border-t border-slate-800 p-4 space-y-3">
+          <div className="flex items-center justify-between rounded-xl bg-slate-800/60 p-3">
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-400/20 text-yellow-400 font-bold shrink-0">
+                {displayName.charAt(0).toUpperCase()}
+              </div>
+              <div className="overflow-hidden">
+                <p className="truncate text-xs font-bold text-white">{displayName}</p>
+                <span className="inline-flex items-center gap-1 text-[10px] text-yellow-400/90 font-semibold">
+                  <ShieldCheck className="h-3 w-3" />
+                  {user?.role === "ADMIN" ? "Administrator" : "Employee"}
+                </span>
+              </div>
             </div>
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-rose-600/20 hover:border-rose-500/30 hover:text-rose-400"
-          >
-            <LogOut className="h-4 w-4" />
-            <span>Sign Out</span>
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center rounded-xl border border-slate-700 bg-slate-800 p-2.5 text-slate-300 hover:bg-slate-700 hover:text-yellow-400 transition-colors"
+              title="Toggle Light/Dark Theme"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4 text-yellow-400" /> : <Moon className="h-4 w-4 text-slate-300" />}
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2.5 text-xs font-bold text-slate-300 transition-colors hover:bg-rose-600/20 hover:border-rose-500/30 hover:text-rose-400"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Sign Out</span>
+            </button>
+          </div>
+
+          <p className="text-[10px] text-center text-slate-500 font-semibold pt-1">
+            © 2026 Lemon Media Company
+          </p>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-4 backdrop-blur-md sm:px-6">
+        <header className="flex h-16 items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 px-4 backdrop-blur-md sm:px-6">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
+              className="rounded-lg p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden"
             >
               <Menu className="h-6 w-6" />
             </button>
-            <h2 className="text-xl font-bold tracking-tight text-slate-800">
+            <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
               {getPageTitle()}
             </h2>
           </div>
 
-          {/* Quick Actions & Profile Header info */}
+          {/* Quick Actions & Theme Switcher */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 hover:scale-105 transition-all"
+              title="Toggle Theme"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
             <button
               onClick={handleQuickClockInOut}
               disabled={clocking}
-              className="hidden sm:flex items-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-400 px-4 py-2 text-xs font-bold text-slate-950 shadow-xs hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95 disabled:opacity-50"
+              className="hidden sm:flex items-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-400 px-4 py-2 text-xs font-extrabold text-slate-950 shadow-xs hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95 disabled:opacity-50"
             >
               <UserCheck className="h-4 w-4" />
               <span>{clocking ? "Processing..." : "Clock In / Out"}</span>
             </button>
 
-            <div className="h-8 w-[1px] bg-slate-200 hidden sm:block"></div>
+            <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
 
             <div className="flex items-center gap-2">
               <div className="hidden text-right md:block">
-                <p className="text-sm font-semibold text-slate-800 leading-none">
+                <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">
                   {displayName}
                 </p>
-                <p className="text-xs text-slate-500 mt-1 font-medium">{user?.email}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">{user?.email}</p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 to-amber-400 font-bold text-slate-900 border-2 border-yellow-200 shadow-xs">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 to-amber-400 font-black text-slate-900 border-2 border-yellow-200 shadow-xs">
                 {displayName.charAt(0).toUpperCase()}
               </div>
             </div>
@@ -216,7 +244,7 @@ const Layout = () => {
         </header>
 
         {/* Dynamic Main Body Content */}
-        <main className="flex-1 overflow-y-auto bg-slate-50/80 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-slate-50/80 dark:bg-slate-950 p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>
