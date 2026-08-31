@@ -55,11 +55,18 @@ const Attendance = () => {
     }
   };
 
-  const todayLog = attendanceLogs.find((log) => {
-    const todayStr = new Date().toISOString().split("T")[0];
-    const logStr = new Date(log.date).toISOString().split("T")[0];
-    return todayStr === logStr;
-  });
+  const isSameDay = (d1, d2) => {
+    if (!d1 || !d2) return false;
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
+  const todayLog = attendanceLogs.find((log) => isSameDay(log.date, new Date()));
 
   const presentCount = attendanceLogs.filter(
     (l) => l.status === "PRESENT" || l.status === "LATE"
@@ -125,8 +132,8 @@ const Attendance = () => {
           <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
             <p className="text-[11px] font-bold text-slate-400 uppercase">Check In Time</p>
             <p className="text-lg font-black text-slate-900 mt-1">
-              {todayLog?.checkIn
-                ? new Date(todayLog.checkIn).toLocaleTimeString([], {
+              {(todayLog?.checkIn || todayLog?.checkIN)
+                ? new Date(todayLog.checkIn || todayLog.checkIN).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })
@@ -137,8 +144,8 @@ const Attendance = () => {
           <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
             <p className="text-[11px] font-bold text-slate-400 uppercase">Check Out Time</p>
             <p className="text-lg font-black text-slate-900 mt-1">
-              {todayLog?.checkOut
-                ? new Date(todayLog.checkOut).toLocaleTimeString([], {
+              {(todayLog?.checkOut || todayLog?.checkOUT)
+                ? new Date(todayLog.checkOut || todayLog.checkOUT).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })
@@ -240,18 +247,23 @@ const Attendance = () => {
                         month: "short",
                         day: "numeric",
                       })}
+                      {log.employee && (
+                        <span className="block text-[10px] font-normal text-slate-400">
+                          {log.employee.firstName} {log.employee.lastName || ""}
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-semibold text-slate-700">
-                      {log.checkIn
-                        ? new Date(log.checkIn).toLocaleTimeString([], {
+                      {(log.checkIn || log.checkIN)
+                        ? new Date(log.checkIn || log.checkIN).toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
                           })
                         : "--:--"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-semibold text-slate-700">
-                      {log.checkOut
-                        ? new Date(log.checkOut).toLocaleTimeString([], {
+                      {(log.checkOut || log.checkOUT)
+                        ? new Date(log.checkOut || log.checkOUT).toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
                           })

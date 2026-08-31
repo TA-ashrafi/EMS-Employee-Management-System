@@ -65,6 +65,7 @@ export const clockInOut = async (req, res) => {
             return res.json({
                 success: true,
                 type: "CHECK_IN",
+                message: "Clocked in successfully",
                 data: {
                     ...attendance.toObject(),
                     checkIn: attendance.checkIN,
@@ -93,6 +94,7 @@ export const clockInOut = async (req, res) => {
             return res.json({
                 success: true,
                 type: "CHECK_OUT",
+                message: "Clocked out successfully",
                 data: {
                     ...existing.toObject(),
                     checkIn: existing.checkIN,
@@ -101,22 +103,14 @@ export const clockInOut = async (req, res) => {
             });
         } 
         else {
-            // Already checked out - start new check-in
-            const isLate = now.getHours() >= 9 && now.getMinutes() > 0;
-            const attendance = await Attendance.create({
-                employeeId: employee._id,
-                date: today,
-                checkIN: now,
-                status: isLate ? "LATE" : "PRESENT"
-            });
-            
-            return res.json({
-                success: true,
-                type: "CHECK_IN",
+            // Already checked in and checked out for today!
+            return res.status(400).json({
+                error: "You have already completed your punch in and punch out for today.",
+                alreadyCompleted: true,
                 data: {
-                    ...attendance.toObject(),
-                    checkIn: attendance.checkIN,
-                    checkOut: attendance.checkOUT
+                    ...existing.toObject(),
+                    checkIn: existing.checkIN,
+                    checkOut: existing.checkOUT
                 }
             });
         }
