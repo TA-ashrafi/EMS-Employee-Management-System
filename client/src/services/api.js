@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL || "http://localhost:4000" || "full-stack-ems-server-lime.vercel.app",
+  baseURL: import.meta.env.VITE_BASE_URL || "http://localhost:4000",
 });
 
 API.interceptors.request.use((config) => {
