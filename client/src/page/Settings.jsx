@@ -86,10 +86,10 @@ const Settings = () => {
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
+        <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
           <SettingsIcon className="h-7 w-7 text-yellow-500" /> Settings & Profile
         </h1>
-        <p className="text-xs font-semibold text-slate-500 mt-1">
+        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
           Manage your personal account details, change passwords, and view system preferences.
         </p>
       </div>
@@ -97,42 +97,42 @@ const Settings = () => {
       <div className="grid gap-6 md:grid-cols-3">
         {/* Profile Card Summary Left */}
         <div className="md:col-span-1 space-y-6">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs text-center space-y-4">
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs text-center space-y-4">
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-yellow-400 to-amber-500 text-3xl font-black text-slate-950 border-4 border-yellow-200 shadow-lg shadow-yellow-400/20">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="text-lg font-black text-slate-900">{displayName}</h3>
-              <p className="text-xs font-semibold text-slate-500 mt-0.5">{user?.email}</p>
-              <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold text-yellow-400">
+              <h3 className="text-lg font-black text-slate-900 dark:text-white">{displayName}</h3>
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{user?.email}</p>
+              <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-900 dark:bg-yellow-400 px-3 py-1 text-[11px] font-bold text-yellow-400 dark:text-slate-950">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 {isAdmin ? "Administrator" : "Employee"}
               </span>
             </div>
 
-            <div className="border-t border-slate-100 pt-4 text-left space-y-2 text-xs">
-              <div className="flex items-center justify-between text-slate-600">
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-4 text-left space-y-2 text-xs">
+              <div className="flex items-center justify-between text-slate-600 dark:text-slate-400">
                 <span className="font-semibold">Department:</span>
-                <span className="font-bold text-slate-900">{profile?.department || "N/A"}</span>
+                <span className="font-bold text-slate-900 dark:text-white">{profile?.department || "N/A"}</span>
               </div>
-              <div className="flex items-center justify-between text-slate-600">
+              <div className="flex items-center justify-between text-slate-600 dark:text-slate-400">
                 <span className="font-semibold">Position:</span>
-                <span className="font-bold text-slate-900">{profile?.position || "Staff"}</span>
+                <span className="font-bold text-slate-900 dark:text-white">{profile?.position || "Staff"}</span>
               </div>
             </div>
           </div>
 
           {/* Lemon Theme Preference Box */}
-          <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-50 to-yellow-50/50 p-6 shadow-xs space-y-3">
-            <h4 className="font-extrabold text-xs uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
-              <Palette className="h-4 w-4 text-amber-600" /> Active System Theme
+          <div className="rounded-3xl border border-amber-500/20 dark:border-slate-800 bg-gradient-to-br from-amber-50 to-yellow-50/50 dark:from-slate-900 dark:to-slate-900/80 p-6 shadow-xs space-y-3">
+            <h4 className="font-extrabold text-xs uppercase tracking-wider text-amber-900 dark:text-yellow-400 flex items-center gap-1.5">
+              <Palette className="h-4 w-4 text-amber-600 dark:text-yellow-400" /> Active System Theme
             </h4>
-            <div className="flex items-center justify-between rounded-2xl bg-white p-3 border border-amber-200">
+            <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-slate-950 p-3 border border-amber-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <span className="h-4 w-4 rounded-full bg-yellow-400 border border-yellow-500"></span>
-                <span className="text-xs font-bold text-slate-900">Lemon Fresh</span>
+                <span className="text-xs font-bold text-slate-900 dark:text-white">Lemon Fresh</span>
               </div>
-              <span className="text-[10px] font-extrabold uppercase bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-md">
+              <span className="text-[10px] font-extrabold uppercase bg-yellow-100 dark:bg-yellow-950/60 text-yellow-800 dark:text-yellow-400 px-2 py-0.5 rounded-md">
                 Default
               </span>
             </div>
@@ -142,12 +142,12 @@ const Settings = () => {
         {/* Right Forms */}
         <div className="md:col-span-2 space-y-6">
           {/* Profile Details Form */}
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
                 <User className="h-5 w-5 text-yellow-500" /> Profile Information
               </h2>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                 Update your account bio and personal details.
               </p>
             </div>
@@ -155,43 +155,43 @@ const Settings = () => {
             <form onSubmit={handleUpdateBio} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     First Name
                   </label>
                   <input
                     type="text"
                     disabled
                     value={profile?.firstName || "ADMIN"}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-semibold text-slate-600 cursor-not-allowed"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-not-allowed"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     Last Name
                   </label>
                   <input
                     type="text"
                     disabled
                     value={profile?.lastName || ""}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-semibold text-slate-600 cursor-not-allowed"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-not-allowed"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                   Email Address
                 </label>
                 <input
                   type="email"
                   disabled
                   value={user?.email || ""}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-semibold text-slate-600 cursor-not-allowed"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-not-allowed"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                   About / Bio
                 </label>
                 <textarea
@@ -199,7 +199,7 @@ const Settings = () => {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Tell us a little about your role and responsibilities..."
-                  className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold text-slate-800 focus:border-yellow-400 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                 />
               </div>
 
@@ -207,7 +207,7 @@ const Settings = () => {
                 <button
                   type="submit"
                   disabled={updatingProfile}
-                  className="flex items-center gap-2 rounded-xl bg-yellow-400 px-6 py-2.5 text-xs font-bold text-slate-950 shadow-xs hover:bg-yellow-300 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-xl bg-yellow-400 px-6 py-2.5 text-xs font-bold text-slate-950 shadow-xs hover:bg-yellow-300 disabled:opacity-50 cursor-pointer"
                 >
                   <Save className="h-4 w-4" />
                   <span>{updatingProfile ? "Saving..." : "Save Profile"}</span>
@@ -217,19 +217,19 @@ const Settings = () => {
           </div>
 
           {/* Change Password Form */}
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
                 <KeyRound className="h-5 w-5 text-yellow-500" /> Security & Password
               </h2>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                 Ensure your account is using a secure password.
               </p>
             </div>
 
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                   Current Password
                 </label>
                 <input
@@ -240,13 +240,13 @@ const Settings = () => {
                     setPasswordData({ ...passwordData, currentPassword: e.target.value })
                   }
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                 />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     New Password
                   </label>
                   <input
@@ -257,12 +257,12 @@ const Settings = () => {
                       setPasswordData({ ...passwordData, newPassword: e.target.value })
                     }
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     Confirm New Password
                   </label>
                   <input
@@ -273,7 +273,7 @@ const Settings = () => {
                       setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                     }
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                   />
                 </div>
               </div>
@@ -282,7 +282,7 @@ const Settings = () => {
                 <button
                   type="submit"
                   disabled={updatingPassword}
-                  className="flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-2.5 text-xs font-bold text-yellow-400 shadow-xs hover:bg-slate-800 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-xl bg-slate-900 dark:bg-yellow-400 px-6 py-2.5 text-xs font-bold text-yellow-400 dark:text-slate-950 shadow-xs hover:bg-slate-800 dark:hover:bg-yellow-300 disabled:opacity-50 cursor-pointer"
                 >
                   <Lock className="h-4 w-4" />
                   <span>{updatingPassword ? "Updating Password..." : "Update Password"}</span>

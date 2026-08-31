@@ -65,7 +65,7 @@ const Leave = () => {
       toast.success("Leave application submitted successfully!");
       setIsModalOpen(false);
       setFormData({
-        type: "PAID",
+        type: "SICK",
         startDate: "",
         endDate: "",
         reason: "",
@@ -95,10 +95,10 @@ const Leave = () => {
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
             <CalendarDays className="h-7 w-7 text-yellow-500" /> Leave Management
           </h1>
-          <p className="text-xs font-semibold text-slate-500 mt-1">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
             {isAdmin
               ? "Review and respond to employee leave applications."
               : "Apply for leave and track the approval status of your applications."}
@@ -108,7 +108,7 @@ const Leave = () => {
         {!isAdmin && (
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 px-5 py-3 text-xs font-bold text-slate-950 shadow-md hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 px-5 py-3 text-xs font-bold text-slate-950 shadow-md hover:from-yellow-300 hover:to-amber-300 transition-all transform active:scale-95 cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Apply for Leave</span>
@@ -118,18 +118,18 @@ const Leave = () => {
 
       {/* Admin Status Filter Toolbar */}
       {isAdmin && (
-        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xs">
+        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 shadow-xs">
           <Filter className="h-4 w-4 text-slate-400 ml-2" />
-          <span className="text-xs font-bold text-slate-600">Filter Status:</span>
+          <span className="text-xs font-bold text-slate-600 dark:text-slate-300">Filter Status:</span>
           <div className="flex items-center gap-1.5 ml-2">
             {["ALL", "PENDING", "APPROVED", "REJECTED"].map((st) => (
               <button
                 key={st}
                 onClick={() => setFilterStatus(st)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-extrabold transition-all ${
+                className={`rounded-xl px-3 py-1.5 text-xs font-extrabold transition-all cursor-pointer ${
                   filterStatus === st
-                    ? "bg-slate-900 text-yellow-400 shadow-xs"
-                    : "text-slate-500 hover:bg-slate-100"
+                    ? "bg-slate-900 text-yellow-400 shadow-xs dark:bg-yellow-400 dark:text-slate-950"
+                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                 }`}
               >
                 {st}
@@ -145,20 +145,20 @@ const Leave = () => {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-yellow-400 border-t-transparent"></div>
         </div>
       ) : leaves.length === 0 ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
-          <CalendarDays className="mx-auto h-12 w-12 text-slate-300" />
-          <h3 className="mt-4 text-base font-bold text-slate-800">No Leave Applications Found</h3>
-          <p className="mt-1 text-xs text-slate-500">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center shadow-xs">
+          <CalendarDays className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-700" />
+          <h3 className="mt-4 text-base font-bold text-slate-800 dark:text-white">No Leave Applications Found</h3>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {isAdmin
               ? "There are currently no leave applications under this status filter."
               : "You haven't submitted any leave requests yet."}
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xs">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-medium text-slate-600">
-              <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+            <table className="w-full text-left text-xs font-medium text-slate-600 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-950 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   {isAdmin && <th className="px-6 py-4">Employee</th>}
                   <th className="px-6 py-4">Leave Type</th>
@@ -168,9 +168,9 @@ const Leave = () => {
                   {isAdmin && <th className="px-6 py-4 text-right">Action</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {leaves.map((item) => (
-                  <tr key={item.id || item._id} className="hover:bg-amber-50/30 transition-colors">
+                  <tr key={item.id || item._id} className="hover:bg-amber-50/30 dark:hover:bg-slate-800/40 transition-colors">
                     {isAdmin && (
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
@@ -178,7 +178,7 @@ const Leave = () => {
                             {item.employee?.firstName?.charAt(0) || "E"}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900">
+                            <p className="font-bold text-slate-900 dark:text-white">
                               {item.employee
                                 ? `${item.employee.firstName} ${item.employee.lastName || ""}`
                                 : "Employee"}
@@ -190,14 +190,14 @@ const Leave = () => {
                         </div>
                       </td>
                     )}
-                    <td className="px-6 py-4 whitespace-nowrap font-bold text-slate-900">
-                      <span className="inline-flex items-center rounded-lg bg-slate-100 px-2.5 py-1 text-xs text-slate-800">
+                    <td className="px-6 py-4 whitespace-nowrap font-bold text-slate-900 dark:text-white">
+                      <span className="inline-flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200">
                         {item.type}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="space-y-0.5">
-                        <p className="font-bold text-slate-800">
+                        <p className="font-bold text-slate-800 dark:text-slate-200">
                           {new Date(item.startDate).toLocaleDateString()} &rarr;{" "}
                           {new Date(item.endDate).toLocaleDateString()}
                         </p>
@@ -206,17 +206,17 @@ const Leave = () => {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 max-w-xs truncate font-medium text-slate-700">
+                    <td className="px-6 py-4 max-w-xs truncate font-medium text-slate-700 dark:text-slate-300">
                       {item.reason}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${
                           item.status === "APPROVED"
-                            ? "bg-emerald-100 text-emerald-800"
+                            ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"
                             : item.status === "REJECTED"
-                            ? "bg-rose-100 text-rose-800"
-                            : "bg-amber-100 text-amber-800"
+                            ? "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400"
+                            : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
                         }`}
                       >
                         {item.status === "APPROVED" && <CheckCircle2 className="h-3.5 w-3.5" />}
@@ -231,13 +231,13 @@ const Leave = () => {
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => handleUpdateStatus(item.id || item._id, "APPROVED")}
-                              className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition-colors"
+                              className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition-colors cursor-pointer"
                             >
                               <Check className="h-3.5 w-3.5" /> Approve
                             </button>
                             <button
                               onClick={() => handleUpdateStatus(item.id || item._id, "REJECTED")}
-                              className="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-rose-700 transition-colors"
+                              className="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-rose-700 transition-colors cursor-pointer"
                             >
                               <Ban className="h-3.5 w-3.5" /> Reject
                             </button>
@@ -258,12 +258,12 @@ const Leave = () => {
       {/* Apply Leave Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-8 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h2 className="text-xl font-black text-slate-900">Leave Application</h2>
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-2xl space-y-6 border border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white">Leave Application</h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-full p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -271,13 +271,13 @@ const Leave = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                   Leave Type
                 </label>
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full rounded-xl border border-slate-200 p-3 text-xs font-bold focus:border-yellow-400 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-bold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                 >
                   <option value="SICK">Sick Leave</option>
                   <option value="CASUAL">Casual Leave</option>
@@ -287,7 +287,7 @@ const Leave = () => {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     Start Date
                   </label>
                   <input
@@ -296,12 +296,12 @@ const Leave = () => {
                     min={tomorrowStr}
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                     End Date
                   </label>
                   <input
@@ -310,13 +310,13 @@ const Leave = () => {
                     min={formData.startDate || tomorrowStr}
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">
                   Reason for Leave
                 </label>
                 <textarea
@@ -325,15 +325,15 @@ const Leave = () => {
                   value={formData.reason}
                   onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                   placeholder="Please specify why you are taking leave..."
-                  className="w-full rounded-xl border border-slate-200 p-3 text-xs font-semibold focus:border-yellow-400 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-xs font-semibold text-slate-900 dark:text-white focus:border-yellow-400 focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
+              <div className="flex items-center justify-end gap-3 border-t border-slate-100 dark:border-slate-800 pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="rounded-xl px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100"
+                  className="rounded-xl px-5 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   Cancel
                 </button>
