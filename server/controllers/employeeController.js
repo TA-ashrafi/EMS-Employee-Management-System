@@ -9,7 +9,9 @@ export const getEmployees = async (req, res) => {
   try {
     const { department } = req.query;
 
-    const where = {};
+    const where = {
+      isDeleted: { $ne: true },
+    };
 
     if (department) {
       where.department = department;
@@ -20,19 +22,21 @@ export const getEmployees = async (req, res) => {
       .populate("userId", "email role")
       .lean();
 
-    const result = employees.map((emp) => ({
-      ...emp,
-      id: emp._id.toString(),
-      userId: emp.userId
-        ? {
+    // Filter out records where userId reference no longer exists in Users collection or isDeleted
+    const result = employees
+      .filter((emp) => emp.userId !== null && emp.userId !== undefined)
+      .map((emp) => ({
+        ...emp,
+        id: emp._id.toString(),
+        userId: {
           email: emp.userId.email,
           role: emp.userId.role,
-        }
-        : null,
-    }));
+        },
+      }));
 
     return res.json(result);
   } catch (error) {
+    console.error("Get employees error:", error);
     return res.status(500).json({
       error: "Failed to Fetch Employees",
     });
