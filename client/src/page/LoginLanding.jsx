@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
 import toast from "react-hot-toast";
-import { Mail, Lock, ShieldCheck, UserCheck, ArrowRight, Sparkles, Sun, Moon } from "lucide-react";
+import { Mail, Lock, ShieldCheck, UserCheck, ArrowRight, Sparkles } from "lucide-react";
 
 const LoginLanding = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roleType, setRoleType] = useState("admin"); // 'admin' or 'employee'
+  const [roleType, setRoleType] = useState("admin");
   const [submitting, setSubmitting] = useState(false);
 
   const { login } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -80,14 +78,6 @@ const LoginLanding = () => {
 
       {/* Right Login Form Container */}
       <div className="flex w-full items-center justify-center p-6 sm:p-12 lg:w-1/2 bg-slate-950 relative">
-        <button
-          onClick={toggleTheme}
-          className="absolute top-6 right-6 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-yellow-400 hover:scale-105 transition-all"
-          title="Toggle Theme"
-        >
-          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5 text-slate-300" />}
-        </button>
-
         <div className="w-full max-w-md space-y-8">
           {/* Mobile Logo Header */}
           <div className="flex items-center gap-3 lg:hidden">

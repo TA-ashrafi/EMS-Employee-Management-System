@@ -30,17 +30,119 @@ const autoCheckOut = inngest.createFunction(
             console.log(` Sending reminder email to ${employee?.email || employeeId}`);
             await sendEmail({
                 to: employee.email,
-                subject: "Attendance Check-Out Remainder",
-                body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
-                <h2>Hi ${employee.firstName},</h2>
-                <p style="font-size: 16px;">You have a check-in in ${employee.department} today:</p>
-                <p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">${new Date(attendance.checkIn).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
-                <ol><li>${new Date(attendance.checkIn).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</li></ol>
-                <p style="font-size: 16px;">Please make sure to check-out in one hour.</p>
-                <p style="font-size: 16px;">If you have any questions, please contact your admin.</p>
-                <p style="font-size: 16px;">Best Regards,</p>
-                <p style="font-size: 16px;">EMS</p>
-                </div>`
+                subject: "Check-in Notification - Lemon Media",
+                body: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in Notification</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;">
+
+  <table align="center" cellpadding="0" cellspacing="0" width="100%" style="max-width: 560px; margin: 0 auto; background-color: #0f0f0f; margin-top: 48px; margin-bottom: 48px; box-shadow: 0 8px 48px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.03);">
+
+    <!-- Top Accent -->
+    <tr>
+      <td style="height: 3px; background: linear-gradient(to right, #c9a84c, #b8922e, #c9a84c);"></td>
+    </tr>
+
+    <!-- Header -->
+    <tr>
+      <td style="padding: 32px 44px 0 44px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <div style="font-size: 18px; font-weight: 600; color: #ffffff; letter-spacing: -0.3px;">
+                <span style="color: #c9a84c;">◆</span> Lemon Media
+              </div>
+              <div style="font-size: 8px; color: #444444; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px;">Employee Management System</div>
+            </td>
+            <td align="right">
+              <div style="font-size: 8px; color: #c9a84c; letter-spacing: 2px; text-transform: uppercase; font-weight: 500;">Check-in</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Divider -->
+    <tr>
+      <td align="center" style="padding: 0 44px;">
+        <div style="width: 40px; height: 1px; background: rgba(255,255,255,0.06);"></div>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Body -->
+    <tr>
+      <td style="padding: 0 44px 36px 44px;">
+        <h2 style="font-size: 22px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0; letter-spacing: -0.3px;">
+          Hi ${employee.firstName}, 👋
+        </h2>
+        <p style="font-size: 15px; color: #bbbbbb; line-height: 1.8; margin: 0 0 16px 0;">
+          You have a check-in in <strong style="color: #c9a84c;">${employee.department}</strong> today:
+        </p>
+
+        <!-- Time Card -->
+        <div style="background: rgba(201, 168, 76, 0.04); border: 1px solid rgba(201, 168, 76, 0.06); border-radius: 8px; padding: 24px 28px; margin: 16px 0 20px 0; text-align: center;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600; margin-bottom: 6px;">Check-in Time</div>
+          <div style="font-size: 34px; font-weight: 600; color: #c9a84c; letter-spacing: -0.5px;">
+            ${new Date(attendance.checkIn).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' })}
+          </div>
+          <div style="font-size: 13px; color: #666666; margin-top: 6px;">
+            ${new Date(attendance.checkIn).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; padding: 14px 20px; margin: 16px 0 20px 0;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 6px;">Details</div>
+          <div style="font-size: 14px; color: #aaaaaa;">
+            ${new Date(attendance.checkIn).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+          </div>
+        </div>
+
+        <!-- Reminder -->
+        <div style="background: rgba(201, 168, 76, 0.04); border-left: 3px solid #c9a84c; padding: 12px 18px; border-radius: 0 4px 4px 0; margin: 16px 0 20px 0;">
+          <p style="font-size: 14px; color: #888888; margin: 0; line-height: 1.6;">
+            <span style="color: #c9a84c;">◆</span> Please make sure to <strong style="color: #ffffff;">check-out in one hour</strong>.
+          </p>
+        </div>
+
+        <p style="font-size: 14px; color: #666666; line-height: 1.8; margin: 16px 0 8px 0;">
+          If you have any questions, please contact your admin.
+        </p>
+
+        <!-- Closing -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04);">
+          <p style="font-size: 14px; color: #888888; margin: 0; line-height: 1.6;">Best Regards,</p>
+          <p style="font-size: 14px; color: #c9a84c; font-weight: 500; margin: 2px 0 0 0;">EMS Team</p>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="padding: 18px 44px 24px 44px; background: rgba(10,10,10,0.95); border-top: 1px solid rgba(255,255,255,0.02);">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size: 9px; color: #444444;"><span style="color: #c9a84c;">◆</span> Lemon Media Company</td>
+            <td align="right" style="font-size: 9px; color: #444444;">${new Date().getFullYear()}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>`
             });
 
 
@@ -92,15 +194,139 @@ const leaveApplicationReminder = inngest.createFunction(
             for (const admin of admins) {
                 console.log(`Sending reminder email to admin: ${admin.email}`);
                 await sendEmail({
-                    to: process.env.ADMIN_EMAIL,
-                    subject: "Leave Attendance Remainder",
-                    body: `<div style="max-width: 600px; font-family: Arial, sans-serif;">
-                    <h2>Hi Admin,</h2><p style="font-size: 16px;">You have a leave application from <strong>${employee?.firstName || ''} ${employee?.lastName || ''}</strong> in ${employee?.department || 'N/A'} department:</p><p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">${new Date(leaveApplication?.startDate).toLocaleDateString('en-IN')} to ${new Date(leaveApplication?.endDate).toLocaleDateString('en-IN')}</p>
-                    <p style="font-size: 16px;">Please take action on this leave application.</p>
-                    <br />
-                    <p style="font-size: 16px;">Best Regards,</p>
-                    <p style="font-size: 16px;">EMS</p>
-                    </div>`
+                    to: process.env.ADMIN_EMAIL || admin.email,
+                    subject: "Leave Application Notification - Lemon Media",
+                    body: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave Application</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;">
+
+  <table align="center" cellpadding="0" cellspacing="0" width="100%" style="max-width: 560px; margin: 0 auto; background-color: #0f0f0f; margin-top: 48px; margin-bottom: 48px; box-shadow: 0 8px 48px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.03);">
+
+    <!-- Top Accent -->
+    <tr>
+      <td style="height: 3px; background: linear-gradient(to right, #c9a84c, #b8922e, #c9a84c);"></td>
+    </tr>
+
+    <!-- Header -->
+    <tr>
+      <td style="padding: 32px 44px 0 44px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <div style="font-size: 18px; font-weight: 600; color: #ffffff; letter-spacing: -0.3px;">
+                <span style="color: #c9a84c;">◆</span> Lemon Media
+              </div>
+              <div style="font-size: 8px; color: #444444; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px;">Employee Management System</div>
+            </td>
+            <td align="right">
+              <div style="font-size: 8px; color: #c9a84c; letter-spacing: 2px; text-transform: uppercase; font-weight: 500;">Leave Application</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Divider -->
+    <tr>
+      <td align="center" style="padding: 0 44px;">
+        <div style="width: 40px; height: 1px; background: rgba(255,255,255,0.06);"></div>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Body -->
+    <tr>
+      <td style="padding: 0 44px 36px 44px;">
+        <h2 style="font-size: 22px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0; letter-spacing: -0.3px;">
+          Hi Admin, 👋
+        </h2>
+        <p style="font-size: 15px; color: #bbbbbb; line-height: 1.8; margin: 0 0 6px 0;">
+          You have a leave application from
+        </p>
+
+        <!-- Employee Card -->
+        <div style="background: rgba(201, 168, 76, 0.04); border: 1px solid rgba(201, 168, 76, 0.06); border-radius: 8px; padding: 18px 24px; margin: 12px 0 16px 0;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600; margin-bottom: 4px;">Employee</div>
+          <div style="font-size: 20px; font-weight: 600; color: #ffffff;">
+            ${employee?.firstName || ''} ${employee?.lastName || ''}
+          </div>
+          <div style="font-size: 13px; color: #888888; margin-top: 2px;">${employee?.department || 'N/A'} Department</div>
+        </div>
+
+        <!-- Leave Period -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 20px 24px; margin: 16px 0 20px 0; text-align: center;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600; margin-bottom: 6px;">Leave Period</div>
+          <div style="font-size: 22px; font-weight: 600; color: #c9a84c; letter-spacing: -0.3px;">
+            ${new Date(leaveApplication?.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+            <span style="color: #666666; font-weight: 300; margin: 0 6px;">—</span>
+            ${new Date(leaveApplication?.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+          </div>
+          <div style="font-size: 12px; color: #666666; margin-top: 4px;">
+            ${Math.ceil((new Date(leaveApplication?.endDate) - new Date(leaveApplication?.startDate)) / (1000 * 60 * 60 * 24)) + 1} day(s)
+          </div>
+        </div>
+
+        <!-- Leave Details -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; padding: 14px 20px; margin: 16px 0 20px 0;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="width: 50%;">
+                <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px;">Leave Type</div>
+                <div style="font-size: 14px; color: #ffffff;">${leaveApplication?.leaveType || 'N/A'}</div>
+              </td>
+              <td style="width: 50%;">
+                <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px;">Status</div>
+                <div style="font-size: 14px; color: #f5a623; font-weight: 500;">● Pending</div>
+              </td>
+            </tr>
+          </table>
+          <div style="border-top: 1px solid rgba(255,255,255,0.04); margin-top: 12px; padding-top: 12px;">
+            <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px;">Reason</div>
+            <div style="font-size: 14px; color: #aaaaaa; font-style: italic;">"${leaveApplication?.reason || 'No reason provided'}"</div>
+          </div>
+        </div>
+
+        <!-- Action -->
+        <div style="background: rgba(201, 168, 76, 0.04); border-left: 3px solid #c9a84c; padding: 12px 18px; border-radius: 0 4px 4px 0; margin: 16px 0 20px 0;">
+          <p style="font-size: 14px; color: #888888; margin: 0; line-height: 1.6;">
+            <span style="color: #c9a84c;">◆</span> Please take action on this leave application.
+          </p>
+        </div>
+
+        <!-- Closing -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04);">
+          <p style="font-size: 14px; color: #888888; margin: 0; line-height: 1.6;">Best Regards,</p>
+          <p style="font-size: 14px; color: #c9a84c; font-weight: 500; margin: 2px 0 0 0;">EMS Team</p>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="padding: 18px 44px 24px 44px; background: rgba(10,10,10,0.95); border-top: 1px solid rgba(255,255,255,0.02);">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size: 9px; color: #444444;"><span style="color: #c9a84c;">◆</span> Lemon Media Company</td>
+            <td align="right" style="font-size: 9px; color: #444444;">${new Date().getFullYear()}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>`
                 });
             }
 
@@ -174,16 +400,134 @@ const attendanceReminderCron = inngest.createFunction(
                     console.log(`Sending reminder email to ${emp.email}`);
                     return await sendEmail({
                         to: emp.email,
-                        subject: "Attendance Reminder - Please Mark Your Attendance",
-                        body: `<div style="max-width: 600px; font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-                        <h2 style="color: #0f172a;">Hi ${emp.firstName},</h2>
-                        <p style="font-size: 15px; color: #334155;">We noticed you haven't marked your attendance yet today.</p>
-                        <p style="font-size: 15px; color: #334155;">The deadline was <strong>11:30 AM IST</strong> and your attendance record is currently missing.</p>
-                        <p style="font-size: 15px; color: #334155;">Please log in and check in as soon as possible or contact your administrator if you are facing any issues.</p>
-                        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
-                        <p style="font-size: 13px; color: #64748b; margin: 0;">Department: ${emp.department || 'N/A'}</p>
-                        <p style="font-size: 14px; color: #0f172a; font-weight: bold; margin-top: 12px;">Lemon Media Company EMS</p>
-                        </div>`
+                        subject: "Attendance Reminder - Lemon Media",
+                        body: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Reminder</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;">
+
+  <table align="center" cellpadding="0" cellspacing="0" width="100%" style="max-width: 560px; margin: 0 auto; background-color: #0f0f0f; margin-top: 48px; margin-bottom: 48px; box-shadow: 0 8px 48px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.03);">
+
+    <!-- Top Accent -->
+    <tr>
+      <td style="height: 3px; background: linear-gradient(to right, #c9a84c, #b8922e, #c9a84c);"></td>
+    </tr>
+
+    <!-- Header -->
+    <tr>
+      <td style="padding: 32px 44px 0 44px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <div style="font-size: 18px; font-weight: 600; color: #ffffff; letter-spacing: -0.3px;">
+                <span style="color: #c9a84c;">◆</span> Lemon Media
+              </div>
+              <div style="font-size: 8px; color: #444444; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px;">Employee Management System</div>
+            </td>
+            <td align="right">
+              <div style="font-size: 8px; color: #f5a623; letter-spacing: 2px; text-transform: uppercase; font-weight: 500;">Reminder</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Divider -->
+    <tr>
+      <td align="center" style="padding: 0 44px;">
+        <div style="width: 40px; height: 1px; background: rgba(255,255,255,0.06);"></div>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr><td style="height: 28px;"></td></tr>
+
+    <!-- Body -->
+    <tr>
+      <td style="padding: 0 44px 36px 44px;">
+        <h2 style="font-size: 22px; font-weight: 600; color: #ffffff; margin: 0 0 12px 0; letter-spacing: -0.3px;">
+          Hi ${emp.firstName}, 👋
+        </h2>
+        <p style="font-size: 15px; color: #bbbbbb; line-height: 1.8; margin: 0 0 16px 0;">
+          We noticed you haven't marked your attendance yet today.
+        </p>
+
+        <!-- Deadline Card -->
+        <div style="background: rgba(201, 168, 76, 0.04); border: 1px solid rgba(201, 168, 76, 0.06); border-radius: 8px; padding: 20px 24px; margin: 16px 0 20px 0; text-align: center;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600; margin-bottom: 4px;">Deadline Passed</div>
+          <div style="font-size: 26px; font-weight: 600; color: #f5a623; letter-spacing: -0.3px;">
+            11:30 AM IST
+          </div>
+          <div style="font-size: 13px; color: #888888; margin-top: 4px;">
+            Your attendance record is currently missing
+          </div>
+        </div>
+
+        <!-- Action Required -->
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; padding: 16px 20px; margin: 16px 0 20px 0;">
+          <div style="font-size: 8px; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 6px;">Action Required</div>
+          <p style="font-size: 14px; color: #aaaaaa; line-height: 1.7; margin: 0;">
+            Please log in and check in as soon as possible, or contact your administrator if you are facing any issues.
+          </p>
+        </div>
+
+        <!-- CTA Button -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0 24px 0;">
+          <tr>
+            <td align="center">
+              <a href="${process.env.VITE_BASE_URL || 'http://localhost:5173'}" style="display: inline-block; background: linear-gradient(135deg, #c9a84c, #b8922e); color: #0a0a0a; font-size: 11px; font-weight: 600; padding: 12px 44px; text-decoration: none; text-align: center; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; box-shadow: 0 4px 20px rgba(201, 168, 76, 0.12);">
+                Mark Attendance Now
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Divider -->
+        <div style="height: 1px; background: rgba(255,255,255,0.04); margin: 0 0 16px 0;"></div>
+
+        <!-- Department & Date -->
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size: 12px; color: #666666;">
+              <span style="color: #c9a84c;">◆</span> Department: <strong style="color: #ffffff;">${emp.department || 'N/A'}</strong>
+            </td>
+            <td align="right" style="font-size: 12px; color: #666666;">
+              ${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            </td>
+          </tr>
+        </table>
+
+        <!-- Closing -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04);">
+          <p style="font-size: 14px; color: #888888; margin: 0; line-height: 1.6;">Best Regards,</p>
+          <p style="font-size: 14px; color: #c9a84c; font-weight: 500; margin: 2px 0 0 0;">EMS Team</p>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="padding: 18px 44px 24px 44px; background: rgba(10,10,10,0.95); border-top: 1px solid rgba(255,255,255,0.02);">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="font-size: 9px; color: #444444;"><span style="color: #c9a84c;">◆</span> Lemon Media Company</td>
+            <td align="right" style="font-size: 9px; color: #444444;">${new Date().getFullYear()}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>`
                     });
                 });
                 await Promise.all(emailPromises);
