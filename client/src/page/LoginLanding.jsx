@@ -7,7 +7,7 @@ import { Mail, Lock, ShieldCheck, UserCheck, ArrowRight, Sparkles } from "lucide
 const LoginLanding = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roleType, setRoleType] = useState("admin");
+  const [roleType, setRoleType] = useState("admin"); // 'admin' or 'employee'
   const [submitting, setSubmitting] = useState(false);
 
   const { login } = useAuth();

@@ -12,10 +12,6 @@ const TEMPORARY_PASSWORD = "admin123";
 async function registerAdmin() {
     try {
         const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-        if (!ADMIN_EMAIL) {
-            console.log("❌ Missing ADMIN_EMAIL env Variable");
-            process.exit(1);
-        }
 
         await connectDB();
 
